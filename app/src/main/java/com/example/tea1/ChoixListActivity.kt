@@ -9,10 +9,13 @@ import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 
 class ChoixListActivity : AppCompatActivity() {
+    private lateinit var user :String
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContentView(R.layout.activity_choix_list)
+
+        user = intent.getStringExtra("USER_PSEUDO") ?: ""
 
         val toolbar = findViewById<Toolbar>(R.id.toolbarchoix)
         setSupportActionBar(toolbar)

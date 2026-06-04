@@ -52,12 +52,17 @@ class MainActivity : AppCompatActivity() {
                 apply()
             }
             val intent = android.content.Intent(this, ChoixListActivity::class.java)
+            intent.putExtra("USER_PSEUDO", pseudo)
             startActivity(intent)
         }
     }
 
     override fun onResume() {
         super.onResume()
+
+        val currentUser = sharedPref.getString("current_user", "") ?: ""
+        pseudoInput.setText(currentUser, false)
+        pseudoInput.setSelection(currentUser.length) // To move the cursor at the end of the text
 
         users = sharedPref.getStringSet("users", emptySet()) ?: emptySet()
 
