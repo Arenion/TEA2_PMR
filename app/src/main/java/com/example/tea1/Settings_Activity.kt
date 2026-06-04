@@ -1,17 +1,23 @@
 package com.example.tea1
 
 import android.os.Bundle
+import android.preference.PreferenceActivity
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 
-class Settings_Activity : AppCompatActivity() {
+class Settings_Activity : PreferenceActivity() {
+    override fun onBuildHeaders(target: List<Header?>?) {
+        super.onBuildHeaders(target)
+        loadHeadersFromResource()
+    }
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        enableEdgeToEdge()
+
         setContentView(R.layout.activity_settings)
 
         val toolbar = findViewById<Toolbar>(R.id.toolbarsettings)

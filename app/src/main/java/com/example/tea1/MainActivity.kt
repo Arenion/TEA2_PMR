@@ -17,7 +17,7 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContentView(R.layout.activity_main)
-        val SharedPref = this.getPreferences(Context.MODE_PRIVATE) ?: return
+        val SharedPref = this.getSharedPreferences("liste_pseudo",Context.MODE_PRIVATE) ?: return
         val toolbar = findViewById<Toolbar>(R.id.toolbar)
         setSupportActionBar(toolbar)
         supportActionBar?.title = "main activity"
