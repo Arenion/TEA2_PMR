@@ -1,7 +1,11 @@
 package com.example.tea1
 
+import android.content.Context
+import android.content.SharedPreferences
 import android.os.Bundle
 import android.view.Menu
+import android.widget.Button
+import android.widget.EditText
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
@@ -13,7 +17,7 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContentView(R.layout.activity_main)
-
+        val SharedPref = this.getPreferences(Context.MODE_PRIVATE) ?: return
         val toolbar = findViewById<Toolbar>(R.id.toolbar)
         setSupportActionBar(toolbar)
         supportActionBar?.title = "main activity"
@@ -23,6 +27,16 @@ class MainActivity : AppCompatActivity() {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
+        val button_ok = findViewById<Button>(R.id.OK_main)
+        button_ok.setOnClickListener {
+            val pseudo =findViewById<EditText>(R.id.pseudoinput).text.toString()
+            with (SharedPref.edit()){
+                putString("prefered name", pseudo )
+                apply()
+            }
+            val intent = android.content.Intent(this, ChoixListActivity::class.java)
+            startActivity(intent)
+             }
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
@@ -33,11 +47,13 @@ class MainActivity : AppCompatActivity() {
     override fun onOptionsItemSelected(item: android.view.MenuItem): Boolean {
         return when (item.itemId) {
             R.id.action_settings -> {
-                val intent = android.content.Intent(this, Settings::class.java)
+                val intent = android.content.Intent(this, Settings_Activity::class.java)
                 startActivity(intent)
                 true
             }
+
             else -> super.onOptionsItemSelected(item)
         }
     }
+
 }

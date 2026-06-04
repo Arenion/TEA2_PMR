@@ -12,7 +12,10 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.TEA1">
         <activity
-            android:name=".Settings"
+            android:name=".ChoixListActivity"
+            android:exported="false" />
+        <activity
+            android:name=".Settings_Activity"
             android:exported="false" />
         <activity
             android:name=".MainActivity"
