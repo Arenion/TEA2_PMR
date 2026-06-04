@@ -15,7 +15,7 @@
             android:name=".ChoixListActivity"
             android:exported="false" />
         <activity
-            android:name=".Settings_Activity"
+            android:name=".SettingsActivity"
             android:exported="false" />
         <activity
             android:name=".MainActivity"

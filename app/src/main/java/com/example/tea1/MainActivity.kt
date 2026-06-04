@@ -7,7 +7,6 @@ import android.view.Menu
 import android.widget.ArrayAdapter
 import android.widget.AutoCompleteTextView
 import android.widget.Button
-import android.widget.EditText
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
@@ -84,7 +83,7 @@ class MainActivity : AppCompatActivity() {
     override fun onOptionsItemSelected(item: android.view.MenuItem): Boolean {
         return when (item.itemId) {
             R.id.action_settings -> {
-                val intent = android.content.Intent(this, Settings_Activity::class.java)
+                val intent = android.content.Intent(this, SettingsActivity::class.java)
                 startActivity(intent)
                 true
             }

@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <PreferenceCategory android:title="User Management">
+
+        <ListPreference
+            android:key="current_user"
+            android:title="Change Current User"
+            android:summary="Select the active profile" />
+
+        <MultiSelectListPreference
+            android:key="delete_users"
+            android:title="Remove Usernames"
+            android:summary="Select users to permanently delete" />
+
+    </PreferenceCategory>
+
+    <PreferenceCategory android:title="System">
+
+        <Preference
+            android:key="wipe_all"
+            android:title="Wipe All Preferences"
+            android:summary="Deletes all users and resets the app" />
+
+    </PreferenceCategory>
+
+</PreferenceScreen>

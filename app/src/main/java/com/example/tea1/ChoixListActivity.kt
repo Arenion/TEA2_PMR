@@ -35,7 +35,7 @@ class ChoixListActivity : AppCompatActivity() {
     override fun onOptionsItemSelected(item: android.view.MenuItem): Boolean {
         return when (item.itemId) {
             R.id.action_settings -> {
-                val intent = android.content.Intent(this, Settings_Activity::class.java)
+                val intent = android.content.Intent(this, SettingsActivity::class.java)
                 startActivity(intent)
                 true
             }
