@@ -10,6 +10,10 @@ import androidx.appcompat.widget.Toolbar
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import com.google.gson.Gson
+import java.io.File
+import kotlin.io.path.Path
+import kotlin.io.path.absolutePathString
+
 class Settings_Activity : AppCompatActivity() {
     data class Listvalue(
         val pseudo: String,
@@ -18,7 +22,7 @@ class Settings_Activity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
+        val file = File("data.json")
         setContentView(R.layout.activity_settings)
 
         val toolbar = findViewById<Toolbar>(R.id.toolbarsettings)
@@ -39,6 +43,9 @@ class Settings_Activity : AppCompatActivity() {
 
             val newvaleur =Listvalue(pseudo,valeur)
             var gson = Gson()
+            var jsonString = gson.toJson(newvaleur)
+
+            file.writeText(jsonString)
         }
     }
 
