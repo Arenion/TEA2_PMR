@@ -14,7 +14,7 @@ class Settings_Activity : AppCompatActivity() {
         enableEdgeToEdge()
         setContentView(R.layout.activity_settings)
 
-        val toolbar = findViewById<Toolbar>(R.id.toolbarchoix)
+        val toolbar = findViewById<Toolbar>(R.id.toolbarsettings)
         setSupportActionBar(toolbar)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         supportActionBar?.title = "Préférences"
@@ -30,4 +30,6 @@ class Settings_Activity : AppCompatActivity() {
         onBackPressedDispatcher.onBackPressed()
         return true
     }
+
+
 }
