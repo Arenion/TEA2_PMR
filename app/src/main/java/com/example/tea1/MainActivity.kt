@@ -4,6 +4,8 @@ import android.content.Context
 import android.content.SharedPreferences
 import android.os.Bundle
 import android.view.Menu
+import android.widget.ArrayAdapter
+import android.widget.AutoCompleteTextView
 import android.widget.Button
 import android.widget.EditText
 import androidx.activity.enableEdgeToEdge
@@ -13,11 +15,19 @@ import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 
 class MainActivity : AppCompatActivity() {
+    private lateinit var sharedPref: SharedPreferences
+    private lateinit var pseudoInput: AutoCompleteTextView
+    private lateinit var users: Set<String>
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContentView(R.layout.activity_main)
-        val SharedPref = this.getSharedPreferences("liste_pseudo",Context.MODE_PRIVATE) ?: return
+        sharedPref = this.getSharedPreferences("users_data", Context.MODE_PRIVATE) ?: return
+        users = sharedPref.getStringSet("users", emptySet()) ?: emptySet()
+
+        pseudoInput = findViewById(R.id.pseudoinput)
+
         val toolbar = findViewById<Toolbar>(R.id.toolbar)
         setSupportActionBar(toolbar)
         supportActionBar?.title = "main activity"
@@ -27,16 +37,38 @@ class MainActivity : AppCompatActivity() {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
+
         val button_ok = findViewById<Button>(R.id.OK_main)
         button_ok.setOnClickListener {
-            val pseudo =findViewById<EditText>(R.id.pseudoinput).text.toString()
-            with (SharedPref.edit()){
-                putString("prefered name", pseudo )
+            val pseudo = pseudoInput.text.toString()
+            with(sharedPref.edit()) {
+                putString("current_user", pseudo)
+                if (!users.contains(pseudo))
+                {
+                    val newUsers = users.toMutableSet()
+                    newUsers.add(pseudo)
+                    putStringSet("users", newUsers)
+                }
                 apply()
             }
             val intent = android.content.Intent(this, ChoixListActivity::class.java)
             startActivity(intent)
-             }
+        }
+    }
+
+    override fun onResume() {
+        super.onResume()
+
+        users = sharedPref.getStringSet("users", emptySet()) ?: emptySet()
+
+        val usersArray = users.toTypedArray()
+
+        val adapter = ArrayAdapter(
+            this,
+            android.R.layout.simple_dropdown_item_1line,
+            usersArray
+        )
+        pseudoInput.setAdapter(adapter)
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
@@ -55,5 +87,4 @@ class MainActivity : AppCompatActivity() {
             else -> super.onOptionsItemSelected(item)
         }
     }
-
 }

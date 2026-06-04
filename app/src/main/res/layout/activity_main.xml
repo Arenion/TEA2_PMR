@@ -27,19 +27,19 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="32dp"
             android:layout_marginLeft="32dp"
-            android:text="pseudo"
+            android:text="Pseudo:"
             app:layout_constraintBaseline_toBaselineOf="@+id/pseudoinput"
             app:layout_constraintEnd_toStartOf="@+id/pseudoinput"
             app:layout_constraintStart_toStartOf="parent" />
 
-        <EditText
+        <AutoCompleteTextView
             android:id="@+id/pseudoinput"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:completionThreshold="1"
             app:layout_constraintBottom_toTopOf="@+id/OK_main"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/textView" />
-
 
         <Button
             android:id="@+id/OK_main"
