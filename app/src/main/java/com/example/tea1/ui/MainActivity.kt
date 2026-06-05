@@ -8,39 +8,23 @@ import android.view.MenuItem
 import android.widget.ArrayAdapter
 import android.widget.AutoCompleteTextView
 import android.widget.Button
-import androidx.activity.enableEdgeToEdge
-import androidx.appcompat.app.AppCompatActivity
-import androidx.appcompat.widget.Toolbar
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
 import com.example.tea1.R
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : BaseActivity(R.layout.activity_main, "main activity") {
     private lateinit var sharedPref: SharedPreferences
     private lateinit var pseudoInput: AutoCompleteTextView
     private lateinit var users: Set<String>
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        enableEdgeToEdge()
-        setContentView(R.layout.activity_main)
+
         sharedPref = this.getSharedPreferences("users_data", MODE_PRIVATE) ?: return
         users = sharedPref.getStringSet("users", emptySet()) ?: emptySet()
 
         pseudoInput = findViewById(R.id.pseudoinput)
 
-        val toolbar = findViewById<Toolbar>(R.id.toolbar)
-        setSupportActionBar(toolbar)
-        supportActionBar?.title = "main activity"
-
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
-            val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
-            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
-            insets
-        }
-
-        val button_ok = findViewById<Button>(R.id.OK_main)
-        button_ok.setOnClickListener {
+        val buttonOk = findViewById<Button>(R.id.OK_main)
+        buttonOk.setOnClickListener {
             val pseudo = pseudoInput.text.toString()
             with(sharedPref.edit()) {
                 putString("current_user", pseudo)
