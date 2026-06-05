@@ -11,6 +11,10 @@ import androidx.preference.PreferenceFragmentCompat
 import com.example.tea1.R
 import com.example.tea1.data.DataProvider.deleteAllUserProfiles
 import com.example.tea1.data.DataProvider.deleteUserProfiles
+import com.example.tea1.data.DataProvider.saveUserProfile
+import com.example.tea1.data.TodoItem
+import com.example.tea1.data.TodoList
+import com.example.tea1.data.UserTodos
 
 class SettingsFragment : PreferenceFragmentCompat() {
 
@@ -20,6 +24,7 @@ class SettingsFragment : PreferenceFragmentCompat() {
 
         setupUserOptions()
         setupWipeOption()
+        setupFakeDataOption()
     }
 
     private fun setupUserOptions() {
@@ -76,7 +81,7 @@ class SettingsFragment : PreferenceFragmentCompat() {
     }
 
     private fun setupWipeOption() {
-        // 3. Setup "Wipe All Preferences"
+        // Setup "Wipe All Preferences"
         val wipePref = findPreference<Preference>("wipe_all")
         wipePref?.setOnPreferenceClickListener {
             AlertDialog.Builder(requireContext())
@@ -87,6 +92,38 @@ class SettingsFragment : PreferenceFragmentCompat() {
                     sharedPref.edit().clear().apply()
                     deleteAllUserProfiles(requireContext())
                     Toast.makeText(context, "All preferences deleted", Toast.LENGTH_SHORT).show()
+                    setupUserOptions() // Refresh layouts to blank states
+                }
+                .setNegativeButton("Cancel", null)
+                .show()
+            true
+        }
+    }
+
+    private fun setupFakeDataOption() {
+        // Setup "Wipe All Preferences"
+        val fakeDataPref = findPreference<Preference>("fake_data")
+        fakeDataPref?.setOnPreferenceClickListener {
+            AlertDialog.Builder(requireContext())
+                .setTitle("Confirm fake data")
+                .setMessage("Are you sure you want to create fake user profiles todo lists?")
+                .setPositiveButton("Create fake data") { _, _ ->
+                    val sharedPref = requireContext().getSharedPreferences("users_data", Context.MODE_PRIVATE)
+                    var users = sharedPref.getStringSet("users", emptySet()) ?: emptySet()
+                    with(sharedPref.edit()) {
+                        users = users.toMutableSet()
+                        users.add("User1")
+                        users.add("User2")
+                        putStringSet("users", users)
+                        apply()
+                    }
+                    val user1 = UserTodos("User1", mutableListOf(TodoList("Homeworks", mutableListOf(TodoItem(false, "finish TEA1"),  TodoItem(true, "Generate sample data"))),
+                        TodoList("Empty list")))
+                    saveUserProfile(requireContext(), user1)
+                    val user2 = UserTodos("User2")
+                    saveUserProfile(requireContext(), user2)
+
+                    Toast.makeText(context, "Sample data created", Toast.LENGTH_SHORT).show()
                     setupUserOptions() // Refresh layouts to blank states
                 }
                 .setNegativeButton("Cancel", null)

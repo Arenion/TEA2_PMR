@@ -15,12 +15,17 @@
 
     </PreferenceCategory>
 
-    <PreferenceCategory android:title="System">
+    <PreferenceCategory android:title="Debug">
 
         <Preference
             android:key="wipe_all"
             android:title="Wipe All Preferences"
             android:summary="Deletes all users and resets the app" />
+
+        <Preference
+            android:key="fake_data"
+            android:title="Create fake data"
+            android:summary="Creates fake data to test the app" />
 
     </PreferenceCategory>
 
