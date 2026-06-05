@@ -1,14 +1,14 @@
-package com.example.tea1
+package com.example.tea1.ui
 
 import android.content.Context
 import android.os.Bundle
 import android.widget.Toast
-import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AlertDialog
 import androidx.preference.ListPreference
 import androidx.preference.MultiSelectListPreference
 import androidx.preference.Preference
 import androidx.preference.PreferenceFragmentCompat
+import com.example.tea1.R
 
 class SettingsFragment : PreferenceFragmentCompat() {
 

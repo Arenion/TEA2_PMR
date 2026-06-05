@@ -1,9 +1,10 @@
-package com.example.tea1
+package com.example.tea1.ui
 
-import android.content.Context
+import android.content.Intent
 import android.content.SharedPreferences
 import android.os.Bundle
 import android.view.Menu
+import android.view.MenuItem
 import android.widget.ArrayAdapter
 import android.widget.AutoCompleteTextView
 import android.widget.Button
@@ -12,6 +13,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import com.example.tea1.R
 
 class MainActivity : AppCompatActivity() {
     private lateinit var sharedPref: SharedPreferences
@@ -22,7 +24,7 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContentView(R.layout.activity_main)
-        sharedPref = this.getSharedPreferences("users_data", Context.MODE_PRIVATE) ?: return
+        sharedPref = this.getSharedPreferences("users_data", MODE_PRIVATE) ?: return
         users = sharedPref.getStringSet("users", emptySet()) ?: emptySet()
 
         pseudoInput = findViewById(R.id.pseudoinput)
@@ -50,7 +52,7 @@ class MainActivity : AppCompatActivity() {
                 }
                 apply()
             }
-            val intent = android.content.Intent(this, ChoixListActivity::class.java)
+            val intent = Intent(this, ChoixListActivity::class.java)
             intent.putExtra("USER_PSEUDO", pseudo)
             startActivity(intent)
         }
@@ -80,10 +82,10 @@ class MainActivity : AppCompatActivity() {
         return true
     }
 
-    override fun onOptionsItemSelected(item: android.view.MenuItem): Boolean {
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when (item.itemId) {
             R.id.action_settings -> {
-                val intent = android.content.Intent(this, SettingsActivity::class.java)
+                val intent = Intent(this, SettingsActivity::class.java)
                 startActivity(intent)
                 true
             }
