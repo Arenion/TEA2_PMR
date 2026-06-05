@@ -41,12 +41,16 @@ object DataProvider {
         }
     }
 
-    fun deleteAllUserProfiles(context: Context): Boolean {
+    fun deleteUserProfiles(context: Context, users: List<String>): Boolean {
         var result = true
-        for (user in getUsers(context)) {
+        for (user in users) {
             result = result && deleteUserProfile(context, user)
         }
         return result
+    }
+
+    fun deleteAllUserProfiles(context: Context): Boolean {
+        return deleteUserProfiles(context, getUsers(context))
     }
 
     private fun getFilename(user: String): String {

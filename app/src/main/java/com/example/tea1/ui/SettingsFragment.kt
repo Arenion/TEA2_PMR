@@ -9,6 +9,8 @@ import androidx.preference.MultiSelectListPreference
 import androidx.preference.Preference
 import androidx.preference.PreferenceFragmentCompat
 import com.example.tea1.R
+import com.example.tea1.data.DataProvider.deleteAllUserProfiles
+import com.example.tea1.data.DataProvider.deleteUserProfiles
 
 class SettingsFragment : PreferenceFragmentCompat() {
 
@@ -49,7 +51,8 @@ class SettingsFragment : PreferenceFragmentCompat() {
                 val selectedToIdDelete = newValue as Set<*>
                 if (selectedToIdDelete.isNotEmpty()) {
                     val remainingUsers = usersSet.toMutableSet()
-                    remainingUsers.removeAll(selectedToIdDelete.map { it.toString() }.toSet())
+                    val toRemoveUsers = selectedToIdDelete.map { it.toString() }
+                    remainingUsers.removeAll(toRemoveUsers.toSet())
 
                     sharedPref.edit().apply {
                         putStringSet("users", remainingUsers)
@@ -59,6 +62,8 @@ class SettingsFragment : PreferenceFragmentCompat() {
                         }
                         apply()
                     }
+
+                    deleteUserProfiles(requireContext(), toRemoveUsers)
 
                     Toast.makeText(context, "Selected users removed", Toast.LENGTH_SHORT).show()
 
@@ -80,7 +85,7 @@ class SettingsFragment : PreferenceFragmentCompat() {
                 .setPositiveButton("Wipe everything") { _, _ ->
                     val sharedPref = requireContext().getSharedPreferences("users_data", Context.MODE_PRIVATE)
                     sharedPref.edit().clear().apply()
-
+                    deleteAllUserProfiles(requireContext())
                     Toast.makeText(context, "All preferences deleted", Toast.LENGTH_SHORT).show()
                     setupUserOptions() // Refresh layouts to blank states
                 }
