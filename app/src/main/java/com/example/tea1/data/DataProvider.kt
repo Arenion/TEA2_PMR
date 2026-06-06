@@ -8,21 +8,21 @@ object DataProvider {
     private val gson = Gson()
     private const val FILE_SUFFIX = "_profile.json"
 
-    fun getUserProfile(context: Context, user: String): UserTodos {
+    fun getUserProfile(context: Context, user: String): UserProfile {
         val file = File(context.filesDir, getFilename(user))
         if (!file.exists()) {
-            return UserTodos(user)
+            return UserProfile(user)
         }
         return context.openFileInput(getFilename(user)).bufferedReader().use { reader ->
             val jsonString = reader.readText()
-            gson.fromJson(jsonString, UserTodos::class.java)
+            gson.fromJson(jsonString, UserProfile::class.java)
         }
     }
 
-    fun saveUserProfile(context: Context, userTodos: UserTodos) {
-        val jsonString = gson.toJson(userTodos)
+    fun saveUserProfile(context: Context, userProfile: UserProfile) {
+        val jsonString = gson.toJson(userProfile)
 
-        context.openFileOutput(getFilename(userTodos.user), Context.MODE_PRIVATE).use { output ->
+        context.openFileOutput(getFilename(userProfile.user), Context.MODE_PRIVATE).use { output ->
             output.write(jsonString.toByteArray())
         }
     }

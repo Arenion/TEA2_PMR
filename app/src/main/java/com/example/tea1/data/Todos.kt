@@ -1,22 +1,20 @@
 package com.example.tea1.data
 
-import kotlin.uuid.Uuid
-
 interface Item {
     val name: String
 }
 
 data class TodoItem(
-    override val name: String,
-    val state: Boolean
+    override var name: String,
+    var state: Boolean=false
 ) : Item
 
 data class TodoList(
-    override val name: String,
+    override var name: String,
     val tasks: MutableList<TodoItem> = mutableListOf()
 ) : Item
 
-data class UserTodos(
+data class UserProfile(
     val user: String,
     val lists: MutableList<TodoList> = mutableListOf()
 )

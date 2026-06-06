@@ -12,6 +12,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.TEA1">
         <activity
+            android:name=".ui.ShowListActivity"
+            android:exported="false" />
+        <activity
             android:name=".ui.ChoixListActivity"
             android:exported="false" />
         <activity

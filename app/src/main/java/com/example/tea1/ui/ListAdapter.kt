@@ -2,15 +2,15 @@ package com.example.tea1.ui
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import androidx.recyclerview.widget.RecyclerView
+import androidx.core.widget.doOnTextChanged
 import com.example.tea1.R
-import com.example.tea1.data.TodoItem
 import com.example.tea1.data.TodoList
 
 
 class ListAdapter(
-    private val onItemClick: (TodoList) -> Unit,
-    private val onDeleteClick: (TodoList, Int) -> Unit
+    private val onItemClick: (TodoList, Int) -> Unit,
+    private val onDeleteClick: (TodoList, Int) -> Unit,
+    private val onTextChanged: (String, Int) -> Unit
 ) : BaseAdapter<TodoList, ListViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ListViewHolder {
@@ -24,8 +24,12 @@ class ListAdapter(
         val todoList = dataSource[position]
         holder.bind(todoList)
 
-        holder.titleTextView.setOnClickListener {
-            onItemClick(todoList)
+        holder.titleEditText.setOnClickListener {
+            onItemClick(todoList, position)
+        }
+
+        holder.titleEditText.doOnTextChanged { text, start, before, count ->
+            onTextChanged(text.toString(), position)
         }
 
         holder.deleteButton.setOnClickListener {

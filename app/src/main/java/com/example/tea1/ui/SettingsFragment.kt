@@ -14,7 +14,7 @@ import com.example.tea1.data.DataProvider.deleteUserProfiles
 import com.example.tea1.data.DataProvider.saveUserProfile
 import com.example.tea1.data.TodoItem
 import com.example.tea1.data.TodoList
-import com.example.tea1.data.UserTodos
+import com.example.tea1.data.UserProfile
 
 class SettingsFragment : PreferenceFragmentCompat() {
 
@@ -117,10 +117,10 @@ class SettingsFragment : PreferenceFragmentCompat() {
                         putStringSet("users", users)
                         apply()
                     }
-                    val user1 = UserTodos("User1", mutableListOf(TodoList("Homeworks", mutableListOf(TodoItem("finish TEA1", false),  TodoItem("Generate sample data", true))),
+                    val user1 = UserProfile("User1", mutableListOf(TodoList("Homeworks", mutableListOf(TodoItem("finish TEA1", false),  TodoItem("Generate sample data", true))),
                         TodoList("Empty list")))
                     saveUserProfile(requireContext(), user1)
-                    val user2 = UserTodos("User2")
+                    val user2 = UserProfile("User2")
                     saveUserProfile(requireContext(), user2)
 
                     Toast.makeText(context, "Sample data created", Toast.LENGTH_SHORT).show()
