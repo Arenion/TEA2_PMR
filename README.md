@@ -1,4 +1,1 @@
-# TEA1_PMR
-Le compte rendu est [ici](CR TEA 1.pdf).
-# TEA1_VANNEREUX_GREGOIRE
 # TEA1_VANNEREUX_GREGOIRE
