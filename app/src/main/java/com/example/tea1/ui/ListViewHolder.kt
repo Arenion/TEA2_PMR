@@ -7,11 +7,4 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.tea1.R
 import com.example.tea1.data.TodoList
 
-class ListViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-    val titleTextView: TextView = itemView.findViewById<TextView>(R.id.list_title)
-    val deleteButton: ImageButton = itemView.findViewById(R.id.btn_delete)
-
-    fun bind(todoList: TodoList) {
-        titleTextView.text = todoList.name
-    }
-}
+class ListViewHolder(itemView: View) : BaseViewHolder<TodoList>(itemView)

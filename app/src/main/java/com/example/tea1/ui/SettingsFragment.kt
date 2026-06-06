@@ -117,7 +117,7 @@ class SettingsFragment : PreferenceFragmentCompat() {
                         putStringSet("users", users)
                         apply()
                     }
-                    val user1 = UserTodos("User1", mutableListOf(TodoList("Homeworks", mutableListOf(TodoItem(false, "finish TEA1"),  TodoItem(true, "Generate sample data"))),
+                    val user1 = UserTodos("User1", mutableListOf(TodoList("Homeworks", mutableListOf(TodoItem("finish TEA1", false),  TodoItem("Generate sample data", true))),
                         TodoList("Empty list")))
                     saveUserProfile(requireContext(), user1)
                     val user2 = UserTodos("User2")
