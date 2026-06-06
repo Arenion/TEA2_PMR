@@ -6,18 +6,17 @@ import android.view.Menu
 import android.view.MenuItem
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
-import androidx.appcompat.widget.Toolbar
+import com.google.android.material.appbar.MaterialToolbar
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import com.example.tea1.R
 
-open class BaseActivity(val layoutResID : Int, val activityName : String) : AppCompatActivity() {
+open class BaseActivity(val layoutResID : Int, val activityName : String, val showPreferences : Boolean = true) : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContentView(layoutResID)
-
-        val toolbar = findViewById<Toolbar>(R.id.toolbar)
+        val toolbar = findViewById<MaterialToolbar>(R.id.toolbar)
         setSupportActionBar(toolbar)
         supportActionBar?.title = activityName
 
@@ -30,8 +29,12 @@ open class BaseActivity(val layoutResID : Int, val activityName : String) : AppC
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
-        menuInflater.inflate(R.menu.menu, menu)
-        return true
+        return if (showPreferences) {
+            menuInflater.inflate(R.menu.menu, menu)
+            true
+        } else {
+            false // Hides the menu and the three-dots completely
+        }
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
