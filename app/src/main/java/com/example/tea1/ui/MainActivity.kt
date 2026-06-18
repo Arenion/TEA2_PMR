@@ -11,6 +11,7 @@ import com.example.tea1.R
 import android.net.ConnectivityManager
 import android.net.NetworkCapabilities
 import android.content.Context
+import android.widget.EditText
 import androidx.annotation.RequiresPermission
 
 class MainActivity : BaseActivity(R.layout.activity_main, "main activity") {
@@ -27,7 +28,7 @@ class MainActivity : BaseActivity(R.layout.activity_main, "main activity") {
         users = sharedPref.getStringSet("users", emptySet()) ?: emptySet()
 
         pseudoInput = findViewById(R.id.pseudoinput)
-
+        val viewPassword = findViewById<EditText>(R.id.Password_API)
         val buttonOk = findViewById<Button>(R.id.OK_main)
         buttonOk.setOnClickListener {
             val pseudo = pseudoInput.text.toString()

@@ -48,6 +48,28 @@
             android:text="OK"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="@+id/textView"
-            >
+            />
+
     </androidx.constraintlayout.widget.ConstraintLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+    <TextView
+        android:id="@+id/textPassword_API"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="32dp"
+        android:layout_marginLeft="32dp"
+        android:text="Mot de passe:"
+        app:layout_constraintBaseline_toBaselineOf="@+id/pseudoinput"
+        app:layout_constraintEnd_toStartOf="@+id/pseudoinput"
+        app:layout_constraintStart_toStartOf="parent" />
+
+        <EditText
+            android:id="@+id/Password_API"
+            android:text="Input Password Here"
+            android:layout_width="285dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toStartOf="parent" />
+    </LinearLayout>
 </LinearLayout>
