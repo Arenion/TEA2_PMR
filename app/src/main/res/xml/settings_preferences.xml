@@ -1,6 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
 
+    <PreferenceCategory android:title="Api URL">
+        <EditTextPreference
+            android:key="def_URL"
+            android:title=" Change default URL"
+            android:summary="Change Root url to api here"/>
+
+    </PreferenceCategory>
+
     <PreferenceCategory android:title="User Management">
 
         <ListPreference

@@ -1,5 +1,6 @@
 package com.example.tea1.ui
 
+import android.Manifest
 import android.content.Intent
 import android.content.SharedPreferences
 import android.os.Bundle
@@ -7,11 +8,17 @@ import android.widget.ArrayAdapter
 import android.widget.AutoCompleteTextView
 import android.widget.Button
 import com.example.tea1.R
+import android.net.ConnectivityManager
+import android.net.NetworkCapabilities
+import android.content.Context
+import androidx.annotation.RequiresPermission
 
 class MainActivity : BaseActivity(R.layout.activity_main, "main activity") {
     private lateinit var sharedPref: SharedPreferences
     private lateinit var pseudoInput: AutoCompleteTextView
     private lateinit var users: Set<String>
+    @RequiresPermission(Manifest.permission.ACCESS_NETWORK_STATE)
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -26,8 +33,7 @@ class MainActivity : BaseActivity(R.layout.activity_main, "main activity") {
             val pseudo = pseudoInput.text.toString()
             with(sharedPref.edit()) {
                 putString("current_user", pseudo)
-                if (!users.contains(pseudo))
-                {
+                if (!users.contains(pseudo)) {
                     val newUsers = users.toMutableSet()
                     newUsers.add(pseudo)
                     putStringSet("users", newUsers)
@@ -38,6 +44,11 @@ class MainActivity : BaseActivity(R.layout.activity_main, "main activity") {
             intent.putExtra("USER_PSEUDO", pseudo)
             startActivity(intent)
         }
+
+        buttonOk.isEnabled = false
+        if (checkinternet(this)){
+            buttonOk.isEnabled= true
+         }
     }
 
     override fun onResume() {
@@ -58,4 +69,14 @@ class MainActivity : BaseActivity(R.layout.activity_main, "main activity") {
         )
         pseudoInput.setAdapter(adapter)
     }
-}
+    @RequiresPermission(Manifest.permission.ACCESS_NETWORK_STATE)
+
+    private fun checkinternet(context: Context): Boolean {
+        val connectivityManager = context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+        val network = connectivityManager.activeNetwork ?: return false
+        val capabilities = connectivityManager.getNetworkCapabilities(network) ?: return false
+
+        return capabilities.hasCapability(NetworkCapabilities.NET_CAPABILITY_INTERNET) &&
+                capabilities.hasCapability(NetworkCapabilities.NET_CAPABILITY_VALIDATED)
+    }
+    }

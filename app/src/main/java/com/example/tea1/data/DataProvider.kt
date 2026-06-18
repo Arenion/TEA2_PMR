@@ -4,7 +4,7 @@ import android.content.Context
 import com.google.gson.Gson
 import java.io.File
 
-object DataProvider {
+    object DataProvider {
     private val gson = Gson()
     private const val FILE_SUFFIX = "_profile.json"
 

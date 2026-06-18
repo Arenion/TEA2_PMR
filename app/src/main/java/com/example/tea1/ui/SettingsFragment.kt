@@ -4,6 +4,7 @@ import android.content.Context
 import android.os.Bundle
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
+import androidx.preference.EditTextPreference
 import androidx.preference.ListPreference
 import androidx.preference.MultiSelectListPreference
 import androidx.preference.Preference
@@ -22,11 +23,21 @@ class SettingsFragment : PreferenceFragmentCompat() {
         preferenceManager.sharedPreferencesName = "users_data"
         setPreferencesFromResource(R.xml.settings_preferences, rootKey)
 
+        setupApiOptions()
         setupUserOptions()
         setupWipeOption()
         setupFakeDataOption()
     }
 
+    private fun setupApiOptions() {
+        val default_url: EditTextPreference? = findPreference("def_URL")
+        default_url?.apply {
+            setOnPreferenceChangeListener { _,newValue ->
+                summary= newValue.toString()
+                true
+            }
+        }
+    }
     private fun setupUserOptions() {
         val sharedPref = requireContext().getSharedPreferences("users_data", Context.MODE_PRIVATE)
         val usersSet = sharedPref.getStringSet("users", emptySet()) ?: emptySet()
