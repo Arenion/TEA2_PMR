@@ -13,7 +13,15 @@ import android.net.NetworkCapabilities
 import android.content.Context
 import android.widget.EditText
 import androidx.annotation.RequiresPermission
-
+import androidx.lifecycle.lifecycleScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
+import java.net.HttpURLConnection
+import java.net.URL
+import java.io.BufferedReader
+import java.io.InputStreamReader
+import java.io.OutputStreamWriter
 class MainActivity : BaseActivity(R.layout.activity_main, "main activity") {
     private lateinit var sharedPref: SharedPreferences
     private lateinit var pseudoInput: AutoCompleteTextView
@@ -26,24 +34,30 @@ class MainActivity : BaseActivity(R.layout.activity_main, "main activity") {
 
         sharedPref = this.getSharedPreferences("users_data", MODE_PRIVATE) ?: return
         users = sharedPref.getStringSet("users", emptySet()) ?: emptySet()
-
+        val api_root =sharedPref.getString("def_URL","http://tomnab.fr/todo-api/")
+        println(api_root)
         pseudoInput = findViewById(R.id.pseudoinput)
         val viewPassword = findViewById<EditText>(R.id.Password_API)
         val buttonOk = findViewById<Button>(R.id.OK_main)
         buttonOk.setOnClickListener {
             val pseudo = pseudoInput.text.toString()
-            with(sharedPref.edit()) {
-                putString("current_user", pseudo)
-                if (!users.contains(pseudo)) {
-                    val newUsers = users.toMutableSet()
-                    newUsers.add(pseudo)
-                    putStringSet("users", newUsers)
+            val api_path="authenticate?user=$pseudo&password=${viewPassword.text}"
+            lifecycleScope.launch {
+                val hash = GetRequest(api_root, "GET", api_path)
+                with(sharedPref.edit()) {
+                    putString("current_user", pseudo)
+                    if (!users.contains(pseudo)) {
+                        val newUsers = users.toMutableSet()
+                        newUsers.add(pseudo)
+                        putStringSet("users", newUsers)
+                    }
+                    apply()
                 }
-                apply()
+                val intent = Intent(this@MainActivity, ChoixListActivity::class.java)
+                intent.putExtra("USER_PSEUDO", pseudo)
+                //intent.putExtra("HASH",hash)
+                startActivity(intent)
             }
-            val intent = Intent(this, ChoixListActivity::class.java)
-            intent.putExtra("USER_PSEUDO", pseudo)
-            startActivity(intent)
         }
 
         buttonOk.isEnabled = false
@@ -80,4 +94,36 @@ class MainActivity : BaseActivity(R.layout.activity_main, "main activity") {
         return capabilities.hasCapability(NetworkCapabilities.NET_CAPABILITY_INTERNET) &&
                 capabilities.hasCapability(NetworkCapabilities.NET_CAPABILITY_VALIDATED)
     }
+
+    private suspend fun GetRequest(API_ROOT: String?, Method: String, PATH: String): String = withContext(Dispatchers.IO) {
+        if (API_ROOT == null) return@withContext ""
+        val fullUrl = if (API_ROOT.endsWith("/")) API_ROOT + PATH else "$API_ROOT/$PATH"
+        val url = try {
+            URL(fullUrl)
+        } catch (e: Exception) {
+            e.printStackTrace()
+            return@withContext ""
+        }
+
+        val connection = url.openConnection() as HttpURLConnection
+        try {
+            connection.requestMethod = Method.uppercase()
+            connection.connectTimeout = 5000
+            connection.readTimeout = 5000
+            val responseCode = connection.responseCode
+            if (responseCode == HttpURLConnection.HTTP_OK) {
+                val response = connection.inputStream.bufferedReader().use { it.readText() }
+                println("GET Response Body: $response")
+                response
+            } else {
+                println("GET request failed: $responseCode")
+                ""
+            }
+        } catch (e: Exception) {
+            e.printStackTrace()
+            ""
+        } finally {
+            connection.disconnect()
+        }
     }
+}
